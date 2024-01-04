@@ -19,6 +19,8 @@ param searchServiceSkuName string = 'standard'
 param searchServiceIndexName string = 'azure-chat'
 param searchServiceAPIVersion string = '2023-07-01-Preview'
 
+param deployFormRecognizer bool = true
+
 param location string = resourceGroup().location
 
 @secure()
@@ -312,8 +314,8 @@ resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/container
     }
   }
 }
-
-resource formRecognizer 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
+//Make formrecognizer optional
+resource formRecognizer 'Microsoft.CognitiveServices/accounts@2023-05-01' = if (deployFormRecognizer) {
   name: form_recognizer_name
   location: location
   tags: tags

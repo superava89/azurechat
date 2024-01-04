@@ -35,6 +35,8 @@ param searchServiceIndexName string = 'azure-chat'
 param searchServiceSkuName string = 'standard'
 param searchServiceAPIVersion string = '2023-07-01-Preview'
 
+param deployFormRecognizer bool = true
+
 param resourceGroupName string = ''
 
 var resourceToken = toLower(uniqueString(subscription().id, name, location))
@@ -69,6 +71,7 @@ module resources 'resources.bicep' = {
     searchServiceSkuName: searchServiceSkuName
     searchServiceAPIVersion: searchServiceAPIVersion
     location: location
+    deployFormRecognizer: deployFormRecognizer
   }
 }
 
