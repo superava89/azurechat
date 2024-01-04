@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.24.24.22086",
-      "templateHash": "11478787983207948460"
+      "templateHash": "18294787554343767545"
     }
   },
   "parameters": {
@@ -97,6 +97,10 @@
       "type": "bool",
       "defaultValue": true
     },
+    "deploySpeechServices": {
+      "type": "bool",
+      "defaultValue": true
+    },
     "resourceGroupName": {
       "type": "string",
       "defaultValue": ""
@@ -183,6 +187,9 @@
           },
           "deployFormRecognizer": {
             "value": "[parameters('deployFormRecognizer')]"
+          },
+          "deploySpeechServices": {
+            "value": "[parameters('deploySpeechServices')]"
           }
         },
         "template": {
@@ -192,7 +199,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.24.24.22086",
-              "templateHash": "16531905642071466007"
+              "templateHash": "6778722095658367123"
             }
           },
           "parameters": {
@@ -262,6 +269,10 @@
               "defaultValue": "2023-07-01-Preview"
             },
             "deployFormRecognizer": {
+              "type": "bool",
+              "defaultValue": true
+            },
+            "deploySpeechServices": {
               "type": "bool",
               "defaultValue": true
             },
@@ -693,6 +704,7 @@
               ]
             },
             {
+              "condition": "[parameters('deploySpeechServices')]",
               "type": "Microsoft.CognitiveServices/accounts",
               "apiVersion": "2023-05-01",
               "name": "[variables('speech_service_name')]",

@@ -36,6 +36,7 @@ param searchServiceSkuName string = 'standard'
 param searchServiceAPIVersion string = '2023-07-01-Preview'
 
 param deployFormRecognizer bool = true
+param deploySpeechServices bool = true
 
 param resourceGroupName string = ''
 
@@ -72,6 +73,7 @@ module resources 'resources.bicep' = {
     searchServiceAPIVersion: searchServiceAPIVersion
     location: location
     deployFormRecognizer: deployFormRecognizer
+    deploySpeechServices: deploySpeechServices
   }
 }
 

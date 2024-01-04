@@ -20,7 +20,7 @@ param searchServiceIndexName string = 'azure-chat'
 param searchServiceAPIVersion string = '2023-07-01-Preview'
 
 param deployFormRecognizer bool = true
-
+param deploySpeechServices bool = true
 param location string = resourceGroup().location
 
 @secure()
@@ -371,7 +371,7 @@ resource deployment 'Microsoft.CognitiveServices/accounts/deployments@2023-05-01
   }
 }]
 
-resource speechService 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
+resource speechService 'Microsoft.CognitiveServices/accounts@2023-05-01' = if (deploySpeechServices) {
   name: speech_service_name
   location: location
   tags: tags
