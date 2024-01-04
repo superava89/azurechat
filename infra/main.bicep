@@ -35,8 +35,8 @@ param searchServiceIndexName string = 'azure-chat'
 param searchServiceSkuName string = 'standard'
 param searchServiceAPIVersion string = '2023-07-01-Preview'
 
-param deployFormRecognizer bool = true
-param deploySpeechServices bool = true
+param locationFormRecognizer bool = true
+param locationSpeechServices bool = true
 
 param resourceGroupName string = ''
 
@@ -72,8 +72,8 @@ module resources 'resources.bicep' = {
     searchServiceSkuName: searchServiceSkuName
     searchServiceAPIVersion: searchServiceAPIVersion
     location: location
-    deployFormRecognizer: deployFormRecognizer
-    deploySpeechServices: deploySpeechServices
+    locationFormRecognizer: locationFormRecognizer
+    locationSpeechServices: locationSpeechServices
   }
 }
 

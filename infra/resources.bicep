@@ -19,8 +19,8 @@ param searchServiceSkuName string = 'standard'
 param searchServiceIndexName string = 'azure-chat'
 param searchServiceAPIVersion string = '2023-07-01-Preview'
 
-param deployFormRecognizer bool = true
-param deploySpeechServices bool = true
+param locationFormRecognizer bool = true
+param locationSpeechServices bool = true
 param location string = resourceGroup().location
 
 @secure()
@@ -109,10 +109,10 @@ resource webApp 'Microsoft.Web/sites@2020-06-01' = {
           name: 'OPENAI_API_KEY'
           value: '@Microsoft.KeyVault(VaultName=${kv.name};SecretName=${kv::OPENAI_API_KEY.name})'
         }
-        /*{
+        {
           name: 'AZURE_DOCUMENT_INTELLIGENCE_KEY'
           value: '@Microsoft.KeyVault(VaultName=${kv.name};SecretName=${kv::AZURE_DOCUMENT_INTELLIGENCE_KEY.name})'
-        }*/
+        }
         {
           name: 'AZURE_SEARCH_API_KEY'
           value: '@Microsoft.KeyVault(VaultName=${kv.name};SecretName=${kv::AZURE_SEARCH_API_KEY.name})'
@@ -129,10 +129,10 @@ resource webApp 'Microsoft.Web/sites@2020-06-01' = {
           name: 'AZURE_SEARCH_INDEX_NAME'
           value: searchServiceIndexName
         }
-        /*{ 
+        { 
           name: 'AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT'
           value: 'https://${form_recognizer_name}.cognitiveservices.azure.com/'
-        }*/
+        }
         { 
           name: 'SCM_DO_BUILD_DURING_DEPLOYMENT'
           value: 'true'
@@ -240,7 +240,7 @@ resource kv 'Microsoft.KeyVault/vaults@2021-06-01-preview' = {
     }
   }
 
-  resource AZURE_DOCUMENT_INTELLIGENCE_KEY 'secrets' = if(deployFormRecognizer) {
+  resource AZURE_DOCUMENT_INTELLIGENCE_KEY 'secrets' =  {
     name: 'AZURE-DOCUMENT-INTELLIGENCE-KEY'
     properties: {
       contentType: 'text/plain'
@@ -248,7 +248,7 @@ resource kv 'Microsoft.KeyVault/vaults@2021-06-01-preview' = {
     }
   }
 
-    resource AZURE_SPEECH_KEY 'secrets' = if(deploySpeechServices) {
+    resource AZURE_SPEECH_KEY 'secrets' = {
       name: 'AZURE-SPEECH-KEY'
       properties: {
         contentType: 'text/plain'
@@ -315,9 +315,9 @@ resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/container
   }
 }
 //Make formrecognizer optional
-resource formRecognizer 'Microsoft.CognitiveServices/accounts@2023-05-01' = if (deployFormRecognizer) {
+resource formRecognizer 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
   name: form_recognizer_name
-  location: location
+  location: locationFormRecognizer
   tags: tags
   kind: 'FormRecognizer'
   properties: {
@@ -371,9 +371,9 @@ resource deployment 'Microsoft.CognitiveServices/accounts/deployments@2023-05-01
   }
 }]
 
-resource speechService 'Microsoft.CognitiveServices/accounts@2023-05-01' = if (deploySpeechServices) {
+resource speechService 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
   name: speech_service_name
-  location: location
+  location: locationSpeechServices
   tags: tags
   kind: 'SpeechServices'
   properties: {

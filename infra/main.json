@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.24.24.22086",
-      "templateHash": "8705708318590170111"
+      "templateHash": "11571596330679743352"
     }
   },
   "parameters": {
@@ -93,11 +93,11 @@
       "type": "string",
       "defaultValue": "2023-07-01-Preview"
     },
-    "deployFormRecognizer": {
+    "locationFormRecognizer": {
       "type": "bool",
       "defaultValue": true
     },
-    "deploySpeechServices": {
+    "locationSpeechServices": {
       "type": "bool",
       "defaultValue": true
     },
@@ -185,11 +185,11 @@
           "location": {
             "value": "[parameters('location')]"
           },
-          "deployFormRecognizer": {
-            "value": "[parameters('deployFormRecognizer')]"
+          "locationFormRecognizer": {
+            "value": "[parameters('locationFormRecognizer')]"
           },
-          "deploySpeechServices": {
-            "value": "[parameters('deploySpeechServices')]"
+          "locationSpeechServices": {
+            "value": "[parameters('locationSpeechServices')]"
           }
         },
         "template": {
@@ -199,7 +199,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.24.24.22086",
-              "templateHash": "768636278728305456"
+              "templateHash": "3638311802631411177"
             }
           },
           "parameters": {
@@ -268,11 +268,11 @@
               "type": "string",
               "defaultValue": "2023-07-01-Preview"
             },
-            "deployFormRecognizer": {
+            "locationFormRecognizer": {
               "type": "bool",
               "defaultValue": true
             },
-            "deploySpeechServices": {
+            "locationSpeechServices": {
               "type": "bool",
               "defaultValue": true
             },
@@ -356,7 +356,6 @@
               ]
             },
             {
-              "condition": "[parameters('deployFormRecognizer')]",
               "type": "Microsoft.KeyVault/vaults/secrets",
               "apiVersion": "2021-06-01-preview",
               "name": "[format('{0}/{1}', variables('keyVaultName'), 'AZURE-DOCUMENT-INTELLIGENCE-KEY')]",
@@ -370,7 +369,6 @@
               ]
             },
             {
-              "condition": "[parameters('deploySpeechServices')]",
               "type": "Microsoft.KeyVault/vaults/secrets",
               "apiVersion": "2021-06-01-preview",
               "name": "[format('{0}/{1}', variables('keyVaultName'), 'AZURE-SPEECH-KEY')]",
@@ -451,6 +449,10 @@
                       "value": "[format('@Microsoft.KeyVault(VaultName={0};SecretName={1})', variables('keyVaultName'), 'AZURE-OPENAI-API-KEY')]"
                     },
                     {
+                      "name": "AZURE_DOCUMENT_INTELLIGENCE_KEY",
+                      "value": "[format('@Microsoft.KeyVault(VaultName={0};SecretName={1})', variables('keyVaultName'), 'AZURE-DOCUMENT-INTELLIGENCE-KEY')]"
+                    },
+                    {
                       "name": "AZURE_SEARCH_API_KEY",
                       "value": "[format('@Microsoft.KeyVault(VaultName={0};SecretName={1})', variables('keyVaultName'), 'AZURE-SEARCH-API-KEY')]"
                     },
@@ -465,6 +467,10 @@
                     {
                       "name": "AZURE_SEARCH_INDEX_NAME",
                       "value": "[parameters('searchServiceIndexName')]"
+                    },
+                    {
+                      "name": "AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT",
+                      "value": "[format('https://{0}.cognitiveservices.azure.com/', variables('form_recognizer_name'))]"
                     },
                     {
                       "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",
@@ -511,6 +517,7 @@
               "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', variables('appservice_name'))]",
                 "[resourceId('Microsoft.KeyVault/vaults/secrets', variables('keyVaultName'), 'AZURE-COSMOSDB-KEY')]",
+                "[resourceId('Microsoft.KeyVault/vaults/secrets', variables('keyVaultName'), 'AZURE-DOCUMENT-INTELLIGENCE-KEY')]",
                 "[resourceId('Microsoft.KeyVault/vaults/secrets', variables('keyVaultName'), 'AZURE-SEARCH-API-KEY')]",
                 "[resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmos_name'))]",
                 "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]",
@@ -627,11 +634,10 @@
               ]
             },
             {
-              "condition": "[parameters('deployFormRecognizer')]",
               "type": "Microsoft.CognitiveServices/accounts",
               "apiVersion": "2023-05-01",
               "name": "[variables('form_recognizer_name')]",
-              "location": "[parameters('location')]",
+              "location": "[parameters('locationFormRecognizer')]",
               "tags": "[parameters('tags')]",
               "kind": "FormRecognizer",
               "properties": {
@@ -692,11 +698,10 @@
               ]
             },
             {
-              "condition": "[parameters('deploySpeechServices')]",
               "type": "Microsoft.CognitiveServices/accounts",
               "apiVersion": "2023-05-01",
               "name": "[variables('speech_service_name')]",
-              "location": "[parameters('location')]",
+              "location": "[parameters('locationSpeechServices')]",
               "tags": "[parameters('tags')]",
               "kind": "SpeechServices",
               "properties": {
