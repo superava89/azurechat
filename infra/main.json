@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.24.24.22086",
-      "templateHash": "8685038715597406649"
+      "templateHash": "8705708318590170111"
     }
   },
   "parameters": {
@@ -199,7 +199,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.24.24.22086",
-              "templateHash": "4580569855849784115"
+              "templateHash": "768636278728305456"
             }
           },
           "parameters": {
@@ -451,10 +451,6 @@
                       "value": "[format('@Microsoft.KeyVault(VaultName={0};SecretName={1})', variables('keyVaultName'), 'AZURE-OPENAI-API-KEY')]"
                     },
                     {
-                      "name": "AZURE_DOCUMENT_INTELLIGENCE_KEY",
-                      "value": "[format('@Microsoft.KeyVault(VaultName={0};SecretName={1})', variables('keyVaultName'), 'AZURE-DOCUMENT-INTELLIGENCE-KEY')]"
-                    },
-                    {
                       "name": "AZURE_SEARCH_API_KEY",
                       "value": "[format('@Microsoft.KeyVault(VaultName={0};SecretName={1})', variables('keyVaultName'), 'AZURE-SEARCH-API-KEY')]"
                     },
@@ -469,10 +465,6 @@
                     {
                       "name": "AZURE_SEARCH_INDEX_NAME",
                       "value": "[parameters('searchServiceIndexName')]"
-                    },
-                    {
-                      "name": "AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT",
-                      "value": "[format('https://{0}.cognitiveservices.azure.com/', variables('form_recognizer_name'))]"
                     },
                     {
                       "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",
@@ -509,10 +501,6 @@
                     {
                       "name": "AZURE_SPEECH_REGION",
                       "value": "[resourceGroup().location]"
-                    },
-                    {
-                      "name": "AZURE_SPEECH_KEY",
-                      "value": "[format('@Microsoft.KeyVault(VaultName={0};SecretName={1})', variables('keyVaultName'), 'AZURE-SPEECH-KEY')]"
                     }
                   ]
                 }
@@ -523,9 +511,7 @@
               "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', variables('appservice_name'))]",
                 "[resourceId('Microsoft.KeyVault/vaults/secrets', variables('keyVaultName'), 'AZURE-COSMOSDB-KEY')]",
-                "[resourceId('Microsoft.KeyVault/vaults/secrets', variables('keyVaultName'), 'AZURE-DOCUMENT-INTELLIGENCE-KEY')]",
                 "[resourceId('Microsoft.KeyVault/vaults/secrets', variables('keyVaultName'), 'AZURE-SEARCH-API-KEY')]",
-                "[resourceId('Microsoft.KeyVault/vaults/secrets', variables('keyVaultName'), 'AZURE-SPEECH-KEY')]",
                 "[resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmos_name'))]",
                 "[resourceId('Microsoft.KeyVault/vaults', variables('keyVaultName'))]",
                 "[resourceId('Microsoft.KeyVault/vaults/secrets', variables('keyVaultName'), 'NEXTAUTH-SECRET')]",
