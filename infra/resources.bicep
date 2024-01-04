@@ -244,17 +244,17 @@ resource kv 'Microsoft.KeyVault/vaults@2021-06-01-preview' = {
     name: 'AZURE-DOCUMENT-INTELLIGENCE-KEY'
     properties: {
       contentType: 'text/plain'
-      value: formRecognizer.listKeys().key1
+      value: formRecognizer.listKeys().key1 ?? ''
     }
   }
 
-  resource AZURE_SPEECH_KEY 'secrets' = {
-    name: 'AZURE-SPEECH-KEY'
-    properties: {
-      contentType: 'text/plain'
-      value: speechService.listKeys().key1
+    resource AZURE_SPEECH_KEY 'secrets' = {
+      name: 'AZURE-SPEECH-KEY'
+      properties: {
+        contentType: 'text/plain'
+        value: speechService.listKeys().key1 ?? ''
+      }
     }
-  }
 
 
   resource AZURE_SEARCH_API_KEY 'secrets' = {
