@@ -109,10 +109,10 @@ resource webApp 'Microsoft.Web/sites@2020-06-01' = {
           name: 'OPENAI_API_KEY'
           value: '@Microsoft.KeyVault(VaultName=${kv.name};SecretName=${kv::OPENAI_API_KEY.name})'
         }
-        {
+        /*{
           name: 'AZURE_DOCUMENT_INTELLIGENCE_KEY'
           value: '@Microsoft.KeyVault(VaultName=${kv.name};SecretName=${kv::AZURE_DOCUMENT_INTELLIGENCE_KEY.name})'
-        }
+        }*/
         {
           name: 'AZURE_SEARCH_API_KEY'
           value: '@Microsoft.KeyVault(VaultName=${kv.name};SecretName=${kv::AZURE_SEARCH_API_KEY.name})'
@@ -129,10 +129,10 @@ resource webApp 'Microsoft.Web/sites@2020-06-01' = {
           name: 'AZURE_SEARCH_INDEX_NAME'
           value: searchServiceIndexName
         }
-        { 
+        /*{ 
           name: 'AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT'
           value: 'https://${form_recognizer_name}.cognitiveservices.azure.com/'
-        }
+        }*/
         { 
           name: 'SCM_DO_BUILD_DURING_DEPLOYMENT'
           value: 'true'
@@ -169,10 +169,10 @@ resource webApp 'Microsoft.Web/sites@2020-06-01' = {
           name: 'AZURE_SPEECH_REGION'
           value: resourceGroup().location
         }
-        {
+       /*{
           name: 'AZURE_SPEECH_KEY'
           value: '@Microsoft.KeyVault(VaultName=${kv.name};SecretName=${kv::AZURE_SPEECH_KEY.name})'
-        }
+        }*/
       ]
     }
   }
@@ -240,7 +240,7 @@ resource kv 'Microsoft.KeyVault/vaults@2021-06-01-preview' = {
     }
   }
 
-  resource AZURE_DOCUMENT_INTELLIGENCE_KEY 'secrets' = {
+  resource AZURE_DOCUMENT_INTELLIGENCE_KEY 'secrets' = if(deployFormRecognizer) {
     name: 'AZURE-DOCUMENT-INTELLIGENCE-KEY'
     properties: {
       contentType: 'text/plain'
@@ -248,7 +248,7 @@ resource kv 'Microsoft.KeyVault/vaults@2021-06-01-preview' = {
     }
   }
 
-    resource AZURE_SPEECH_KEY 'secrets' = {
+    resource AZURE_SPEECH_KEY 'secrets' = if(deploySpeechServices) {
       name: 'AZURE-SPEECH-KEY'
       properties: {
         contentType: 'text/plain'
