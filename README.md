@@ -53,6 +53,7 @@ You can deploy the application using one of the following options:
 Click on the Deploy to Azure button to deploy the Azure resources for the application.
 
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://aka.ms/anzappazurechatgpt)
+[![Deploy to Azure Custom](https://aka.ms/deploytoazurebutton)](https://raw.githubusercontent.com/FreddyAyala/azurechat/main/infra/main.json)
 
 ## Setup Authentication
 
